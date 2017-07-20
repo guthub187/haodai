@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+			.aside {
+				width: 300px;
+				background: #525A5A;
+				padding: 20px;
+			}
+			
+			h2 {
+				color: white;
+			}
+			
+			.title {
+				display: flex;
+				line-height: 20px;
+				margin: 10px 0;
+				color: white;
+				justify-content: space-between;
+				font-size: 12px;
+			}
+			
+			.sel {
+				display: flex;
+				justify-content: space-between;
+				color: #666;
+				font-size: 14px;
+				height: 40px;
+				text-align: center;
+				background: white;
+				position: relative;
+				margin-bottom: 25px;
+			}
+			
+			.slide {
+				width: 100%;
+				background: white;
+				position: absolute;
+				top: 114%;
+				display: none;
+				border-top: 1px solid #666;
+				z-index: 2;
+			}
+			
+			.slide p {
+				text-indent: 10px;
+				text-align: left;
+				font-size: 14px;
+				padding: 5px 0;
+				color: #666;
+				margin: 0;
+			}
+			
+			.slide p:hover {
+				background: #0099FF;
+				color: white;
+			}
+			
+			.inp {
+				width: 87.5%;
+				height: 100%;
+				border: none;
+				outline: none;
+				position: relative;
+			}
+			
+			.inp input {
+				width: 98%;
+				height: 100%;
+				padding-left: 5px;
+			}
+			
+			.sel>p {
+				width: 12.5%;
+				height: 45px;
+				border-left: 1px solid #666;
+				margin: 0;
+				background: white;
+				line-height: 45px;
+				font-size: 20px;
+			}
+			
+			.inp p {
+				font-size: 16px;
+				font-weight: bold;
+				line-break: 40px;
+				position: absolute;
+				width: 16.6%;
+				top: 0;
+				right: 0;
+			}
+			
+			a {
+				display: block;
+				width: 100%;
+				margin: 50px 0 20px 0;
+				color: white;
+				text-align: center;
+				background: blue;
+				font-weight: bold;
+				text-decoration: none;
+				padding: 15px 0;
+			}
+			
+			.aside>p {
+				font-size: 12px;
+				text-align: center;
+				color: #999;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="aside">
+			<h2>快速搜索消费贷款</h2>
+			<div class="title">
+				<span>贷款金额:</span>
+				<span>不足一万可用小数表示</span>
+			</div>
+			<div class="sel">
+				<div class="inp">
+					<input type="text" value="30" />
+					<p>万元</p>
+				</div>
+				<p>☟</p>
+				<div class="slide">
+					<p>5万元</p>
+					<p>10万元</p>
+					<p>15万元</p>
+					<p>20万元</p>
+					<p>25万元</p>
+					<p>30万元</p>
+				</div>
+			</div>
+			<div class="title">
+				<span>贷款期限:</span>
+			</div>
+			<div class="sel">
+				<div class="inp">
+					<input type="text" value="18" />
+					<p>个月</p>
+				</div>
+				<p>☟</p>
+				<div class="slide">
+					<p>6<span>个月</span></p>
+					<p>1<span>年</span></p>
+					<p>18<span>个月</span></p>
+					<p>2<span>年</span></p>
+					<p>3<span>年</span></p>
+					<p>5<span>年</span></p>
+					<p>10<span>年</span></p>
+				</div>
+			</div>
+			<a href="#">搜索一下</a>
+			<p>9154种信贷产品 2000家银行 1403家小货公司</p>
+		</div>
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script type="text/javascript">
+		$.each($(".sel>p"), function(a) {
+			num = 1;
+			$(this).click(function() {
+				if(num % 2 == 0) {
+					$(this).text("☟")
+					$(".sel>.slide").eq(a).stop().slideUp()
+				} else {
+					$(this).text("☝")
+					$(".sel>.slide").eq(a).stop().slideDown()
+				}
+				num++;
+			})
+		});
+		$.each($(".sel:eq(0)>.slide>p"), function(a) {
+			$(this).click(function() {
+				num = 1;
+				$("input:eq(0)").val(parseInt($(this).text()));
+				$(".sel:eq(0)>p").text("☟")
+				$(".sel>.slide").eq(0).stop().slideUp()
+			})
+		})
+		$.each($(".sel:eq(1)>.slide>p"), function(a) {
+			$(this).click(function() {
+				num++;
+				$(".sel:eq(1)>p").text("☟")
+				$("input:eq(1)").val(parseInt($(this).text()));
+				$(".sel>.slide").eq(1).stop().slideUp()
+				if($(".sel:eq(1)>.inp>p").text().indexOf($(this).text()) == -1) {
+					$(".sel:eq(1)>.inp>p").text($(".sel:eq(1)>.slide>p>span").eq(a).text())
+				} else {
+					$(".sel:eq(1)>.inp>p").text($(".sel:eq(1)>.inp>p").text())
+				}
+			})
+			$(".sel:eq(1)>.inp>input").change(function() {
+				if($(".sel:eq(1)>.inp>input").val() > 12) {
+					$(".sel:eq(1)>.inp>p").text("个月")
+				}
+			})
+		})
+	</script>
+
+</html>
